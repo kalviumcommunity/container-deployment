@@ -1,0 +1,122 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "cloudnotes",
+    "namespace": "container-deployment"
+  },
+  "spec": {
+    "replicas": 1,
+    "strategy": {
+      "type": "Recreate"
+    },
+    "selector": {
+      "matchLabels": {
+        "app": "cloudnotes"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "cloudnotes"
+        }
+      },
+      "spec": {
+        "securityContext": {
+          "runAsNonRoot": true,
+          "runAsUser": 10001,
+          "runAsGroup": 10001,
+          "fsGroup": 10001
+        },
+        "containers": [
+          {
+            "name": "app",
+            "image": "container-deployment:1.0.0",
+            "imagePullPolicy": "Never",
+            "ports": [
+              {
+                "containerPort": 8080
+              }
+            ],
+            "env": [
+              {
+                "name": "STATELESS",
+                "value": "0"
+              },
+              {
+                "name": "APP_MODE",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "app-settings",
+                    "key": "AP_MODE"
+                  }
+                }
+              },
+              {
+                "name": "DB_PATH",
+                "value": "/data/notes.db"
+              },
+              {
+                "name": "DEMO_PASSWORD",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "demo-settings",
+                    "key": "password"
+                  }
+                }
+              }
+            ],
+            "resources": {
+              "requests": {
+                "cpu": "50m",
+                "memory": "48Mi"
+              },
+              "limits": {
+                "cpu": "500m",
+                "memory": "128Mi"
+              }
+            },
+            "readinessProbe": {
+              "httpGet": {
+                "path": "/ready",
+                "port": 8080
+              },
+              "initialDelaySeconds": 2,
+              "periodSeconds": 2
+            },
+            "livenessProbe": {
+              "httpGet": {
+                "path": "/health",
+                "port": 8080
+              },
+              "initialDelaySeconds": 8,
+              "periodSeconds": 5
+            },
+            "securityContext": {
+              "allowPrivilegeEscalation": false,
+              "capabilities": {
+                "drop": [
+                  "ALL"
+                ]
+              }
+            },
+            "volumeMounts": [
+              {
+                "name": "data",
+                "mountPath": "/data"
+              }
+            ]
+          }
+        ],
+        "volumes": [
+          {
+            "name": "data",
+            "persistentVolumeClaim": {
+              "claimName": "notes-data"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

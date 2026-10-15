@@ -1,0 +1,11 @@
+{
+  "apiVersion": "v1",
+  "kind": "ConfigMap",
+  "metadata": {
+    "name": "app-settings",
+    "namespace": "container-deployment"
+  },
+  "data": {
+    "APP_MODE": "assessment"
+  }
+}

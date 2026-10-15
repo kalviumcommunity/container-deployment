@@ -1,0 +1,7 @@
+{
+  "host_port": 18082,
+  "image": "container-deployment:1.0.0",
+  "namespace": "container-deployment",
+  "app_port": 8080,
+  "hostname": "notes.test"
+}
