@@ -1,7 +1,7 @@
    #!/bin/sh
    set -eu
    BASE_URL=${BASE_URL:-http://127.0.0.1:18082}
-   python3 - "$BASE_URL" <<'PY' || true
+   python3 - "$BASE_URL" <<'PY'
 import json,sys,urllib.request
 base=sys.argv[1]
 for route in ['/health','/notes']:
