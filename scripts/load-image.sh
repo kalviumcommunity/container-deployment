@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-IMAGE=container-deployment:1.0.O
+IMAGE=container-deployment:1.0.0
 docker image inspect "$IMAGE" >/dev/null
 CONTEXT=$(kubectl config current-context)
 case "$CONTEXT" in

@@ -48,7 +48,7 @@
                 "valueFrom": {
                   "configMapKeyRef": {
                     "name": "app-settings",
-                    "key": "AP_MODE"
+                    "key": "APP_MODE"
                   }
                 }
               },

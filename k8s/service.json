@@ -7,7 +7,7 @@
   },
   "spec": {
     "selector": {
-      "app": "cloudnote"
+      "app": "cloudnotes"
     },
     "ports": [
       {

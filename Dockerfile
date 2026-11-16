@@ -1,6 +1,6 @@
 FROM python:3.12.12-slim@sha256:f3fa41d74a768c2fce8016b98c191ae8c1bacd8f1152870a3f9f87d350920b7c AS build
 WORKDIR /build
-COPY requirements-missing.lock requirements.lock
+COPY requirements.lock requirements.lock
 RUN pip install --no-cache-dir -r requirements.lock
 COPY app/ /build/app/
 RUN python -m compileall -q /build/app
